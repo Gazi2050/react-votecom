@@ -1,4 +1,5 @@
-// votingFunctions.ts
+
+// votingFunctions
 
 export interface VotingStats {
     upvotes: number;
@@ -40,4 +41,8 @@ export function combinedVotingFunction(votingStats: VotingStats, voteType: 'upvo
     const downvotePercentage = (downvotes / totalCount) * 100;
 
     return { count: totalCount, upvotePercentage, downvotePercentage };
+}
+
+export function comment() {
+
 }
