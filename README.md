@@ -29,17 +29,50 @@ The react-votecom package includes several functions and interfaces to manage vo
 ### Usage with TypeScript (TS)
 ###### ts
 ```typescript
-import { separateVotingFunction, combinedVotingFunction } from 'react-votecom';
+iimport { useEffect, useState } from 'react';
+import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
 
-// Example usage of separateVotingFunction
-const initialVotingStats: VotingStats = { upvotes: 0, downvotes: 0 };
-const updatedStats = separateVotingFunction(initialVotingStats, 'upvote');
-console.log(updatedStats);
+// Define the type for the response from the API
+interface VotingApiResponse {
+  upvotes: number;
+  downvotes: number;
+}
 
-// Example usage of combinedVotingFunction
-const initialVotingStats2: VotingStats = { upvotes: 0, downvotes: 0 };
-const voteResult = combinedVotingFunction(initialVotingStats2, 'upvote');
-console.log(voteResult);
+const VotingComponent = () => {
+  const [votingStats, setVotingStats] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
+
+  useEffect(() => {
+    fetch('https://example.com/api/voting/stats')
+      .then(response => response.json() as Promise<VotingApiResponse>) // Cast response to VotingApiResponse
+      .then(data => setVotingStats(data))
+      .catch(error => console.error('Error fetching voting stats:', error));
+  }, []);
+
+  const handleUpvote = () => {
+    const updatedStats = separateVotingFunction(votingStats, 'upvote');
+    setVotingStats(updatedStats);
+  };
+
+  const handleDownvote = () => {
+    const updatedStats = separateVotingFunction(votingStats, 'downvote');
+    setVotingStats(updatedStats);
+  };
+
+  const handleCombinedVoting = () => {
+    const updatedStats = combinedVotingFunction(votingStats, 'upvote');
+    setVotingStats(updatedStats);
+  };
+
+  return {
+    votingStats,
+    handleUpvote,
+    handleDownvote,
+    handleCombinedVoting
+  };
+};
+
+export default VotingComponent;
+
 ```
 
 ### Example with API or Database Link
