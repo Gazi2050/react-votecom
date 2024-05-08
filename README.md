@@ -1,7 +1,6 @@
 # react-votecom
 A React component library for implementing voting and commenting functionality in web applications.Sure, here's the updated README.md with the term "package" used instead of "library":
 
-```markdown
 # react-votecom
 
 A React component package for implementing voting and commenting functionality in web applications.
