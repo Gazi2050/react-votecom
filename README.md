@@ -75,7 +75,7 @@ export default VotingComponent;
 
 ```
 
-### Example with API or Database Link
+### Usage with JavaScript (JS)
 ###### js
 ```javascript
 // Example usage with API
