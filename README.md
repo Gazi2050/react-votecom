@@ -26,20 +26,6 @@ The react-votecom package includes several functions and interfaces to manage vo
 
 ### Using with JavaScript or TypeScript
 #### With API
-### Usage with JavaScript (JS)
-```javascript
-const { separateVotingFunction, combinedVotingFunction } = require('react-votecom');
-
-// Example usage of separateVotingFunction
-const initialVotingStats = { upvotes: 0, downvotes: 0 };
-const updatedStats = separateVotingFunction(initialVotingStats, 'upvote');
-console.log(updatedStats);
-
-// Example usage of combinedVotingFunction
-const initialVotingStats2 = { upvotes: 0, downvotes: 0 };
-const voteResult = combinedVotingFunction(initialVotingStats2, 'upvote');
-console.log(voteResult);
-```
 ### Usage with TypeScript (TS)
 ###### ts
 ```typescript
