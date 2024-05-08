@@ -1,0 +1,31 @@
+{
+  "name": "react-votecom",
+  "version": "1.0.0",
+  "description": "A React component library for implementing voting and commenting functionality in web applications.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "homepage": "",
+  "repository": {
+    "url": ""
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "react",
+    "voting",
+    "commenting",
+    "feedback",
+    "react-votecom",
+    "component",
+    "library",
+    "frontend"
+  ],
+  "author": "gazi2050",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}
