@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "homepage": "",
+  "homepage": "https://github.com/Gazi2050/react-votecom",
   "repository": {
-    "url": ""
+    "url": "https://github.com/Gazi2050/react-votecom"
   },
   "scripts": {
     "build": "tsup"
