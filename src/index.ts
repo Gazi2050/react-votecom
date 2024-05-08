@@ -1,4 +1,4 @@
-// votingFunctions
+// votingFunctions.ts
 
 export interface VotingStats {
     upvotes: number;
@@ -15,12 +15,29 @@ export function separateVotingFunction(votingStats: VotingStats, voteType: 'upvo
     }
 }
 
-export function combinedVotingFunction(count: number, voteType: 'upvote' | 'downvote'): number {
+export interface VotingResult {
+    count: number;
+    upvotePercentage: number;
+    downvotePercentage: number;
+}
+
+export function combinedVotingFunction(votingStats: VotingStats, voteType: 'upvote' | 'downvote'): VotingResult {
+    let upvotes = votingStats.upvotes;
+    let downvotes = votingStats.downvotes;
+    let totalCount = upvotes + downvotes;
+
     if (voteType === 'upvote') {
-        return count + 1;
+        upvotes++;
+        totalCount++;
     } else if (voteType === 'downvote') {
-        return count - 1;
+        downvotes++;
+        totalCount--;
     } else {
         throw new Error('Invalid vote type. Must be "upvote" or "downvote".');
     }
+
+    const upvotePercentage = (upvotes / totalCount) * 100;
+    const downvotePercentage = (downvotes / totalCount) * 100;
+
+    return { count: totalCount, upvotePercentage, downvotePercentage };
 }
