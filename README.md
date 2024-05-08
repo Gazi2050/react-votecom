@@ -111,14 +111,20 @@ Here's how you can use the react-votecom package with React in both JavaScript (
 ###### jsx
 ```jsx
 import React, { useEffect, useState } from 'react';
-import { separateVotingFunction, combinedVotingFunction } from 'react-votecom';
+import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
+
+// Define the type for the response from the API
+interface VotingApiResponse {
+  upvotes: number;
+  downvotes: number;
+}
 
 const VotingComponent = () => {
-  const [votingStats, setVotingStats] = useState({ upvotes: 0, downvotes: 0 });
+  const [votingStats, setVotingStats] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
 
   useEffect(() => {
-    fetch('https://api.example.com/voting/stats')
-      .then(response => response.json())
+    fetch('https://example.com/api/voting/stats')
+      .then(response => response.json() as Promise<VotingApiResponse>) // Cast response to VotingApiResponse
       .then(data => setVotingStats(data))
       .catch(error => console.error('Error fetching voting stats:', error));
   }, []);
@@ -133,6 +139,11 @@ const VotingComponent = () => {
     setVotingStats(updatedStats);
   };
 
+  const handleCombinedVoting = () => {
+    const updatedStats = combinedVotingFunction(votingStats.upvotes, 'upvote');
+    setVotingStats({ ...votingStats, upvotes: updatedStats });
+  };
+
   return (
     <div>
       <h2>Voting Stats</h2>
@@ -140,11 +151,13 @@ const VotingComponent = () => {
       <p>Downvotes: {votingStats.downvotes}</p>
       <button onClick={handleUpvote}>Upvote</button>
       <button onClick={handleDownvote}>Downvote</button>
+      <button onClick={handleCombinedVoting}>Combined Voting</button>
     </div>
   );
 };
 
 export default VotingComponent;
+
 ```
 
 ### React TSX Example with API
