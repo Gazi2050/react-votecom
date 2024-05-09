@@ -143,8 +143,8 @@ const VotingComponent = () => {
     setVotingStats(updatedStats);
   };
 
-  const handleCombinedVoting = () => {
-    const updatedStats = combinedVotingFunction(votingStats, 'upvote');
+  const handleCombinedVoting = (voteType) => {
+    const updatedStats = combinedVotingFunction(votingStats, voteType);
     setVotingStats(updatedStats);
   };
 
@@ -155,7 +155,8 @@ const VotingComponent = () => {
       <p>Downvotes: {votingStats.downvotes}</p>
       <button onClick={handleUpvote}>Upvote</button>
       <button onClick={handleDownvote}>Downvote</button>
-      <button onClick={handleCombinedVoting}>Combined Voting</button>
+      <button onClick={() => handleCombinedVoting('upvote')}>Upvote</button>
+      <button onClick={() => handleCombinedVoting('downvote')}>Downvote</button>
     </div>
   );
 };
