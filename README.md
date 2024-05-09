@@ -9,7 +9,7 @@ npm install react-votecom
 ```
 
 ## Introduction
-React-votecom is a package that provides easy-to-use components for adding voting and commenting features to your React applications. It simplifies the process of managing voting statistics and integrates seamlessly with your React projects.
+React-votecom is a package that provides easy-to-use components for adding voting and commenting features to your Ts,Js,React applications. It simplifies the process of managing voting statistics and integrates seamlessly with your projects.
 
 ## Package Overview
 The react-votecom package includes several functions and interfaces to manage voting statistics, perform voting operations, and handle comments.
@@ -123,6 +123,53 @@ Here's how you can use the react-votecom package with React in both JavaScript (
 import React, { useEffect, useState } from 'react';
 import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
 
+const VotingComponent: React.FC = () => {
+  const [votingStats, setVotingStats] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
+
+  useEffect(() => {
+    fetch('https://api.example.com/voting/stats')
+      .then(response => response.json())
+      .then(data => setVotingStats(data))
+      .catch(error => console.error('Error fetching voting stats:', error));
+  }, []);
+
+  const handleUpvote = () => {
+    const updatedStats = separateVotingFunction(votingStats, 'upvote');
+    setVotingStats(updatedStats);
+  };
+
+  const handleDownvote = () => {
+    const updatedStats = separateVotingFunction(votingStats, 'downvote');
+    setVotingStats(updatedStats);
+  };
+
+  const handleCombinedVoting = () => {
+    const updatedStats = combinedVotingFunction(votingStats, 'upvote');
+    setVotingStats(updatedStats);
+  };
+
+  return (
+    <div>
+      <h2>Voting Stats</h2>
+      <p>Upvotes: {votingStats.upvotes}</p>
+      <p>Downvotes: {votingStats.downvotes}</p>
+      <button onClick={handleUpvote}>Upvote</button>
+      <button onClick={handleDownvote}>Downvote</button>
+      <button onClick={handleCombinedVoting}>Combined Voting</button>
+    </div>
+  );
+};
+
+export default VotingComponent;
+
+```
+
+#### React TSX Example with API
+###### tsx
+```tsx
+import React, { useEffect, useState } from 'react';
+import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
+
 // Define the type for the response from the API
 interface VotingApiResponse {
   upvotes: number;
@@ -168,52 +215,6 @@ const VotingComponent = () => {
 
 export default VotingComponent;
 
-```
-
-#### React TSX Example with API
-###### tsx
-```tsx
-import React, { useEffect, useState } from 'react';
-import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
-
-const VotingComponent: React.FC = () => {
-  const [votingStats, setVotingStats] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
-
-  useEffect(() => {
-    fetch('https://api.example.com/voting/stats')
-      .then(response => response.json())
-      .then(data => setVotingStats(data))
-      .catch(error => console.error('Error fetching voting stats:', error));
-  }, []);
-
-  const handleUpvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'upvote');
-    setVotingStats(updatedStats);
-  };
-
-  const handleDownvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'downvote');
-    setVotingStats(updatedStats);
-  };
-
-  const handleCombinedVoting = () => {
-    const updatedStats = combinedVotingFunction(votingStats, 'upvote');
-    setVotingStats(updatedStats);
-  };
-
-  return (
-    <div>
-      <h2>Voting Stats</h2>
-      <p>Upvotes: {votingStats.upvotes}</p>
-      <p>Downvotes: {votingStats.downvotes}</p>
-      <button onClick={handleUpvote}>Upvote</button>
-      <button onClick={handleDownvote}>Downvote</button>
-      <button onClick={handleCombinedVoting}>Combined Voting</button>
-    </div>
-  );
-};
-
-export default VotingComponent;
 
 ```
 These examples demonstrate how to use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) and fetch data from an API. Adjust the API endpoint according to your actual implementation.
