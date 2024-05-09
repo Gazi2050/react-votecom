@@ -28,9 +28,8 @@ The react-votecom package includes several functions and interfaces to manage vo
 ## Usage
 
 ### Voting Function
-### Using with JavaScript or TypeScript
-#### With API
-### Usage with TypeScript (TS)
+### Using with JavaScript or TypeScript With API
+#### Usage with TypeScript (TS)
 ###### ts
 ```typescript
 import { useEffect, useState } from 'react';
@@ -79,7 +78,7 @@ export default VotingComponent;
 
 ```
 
-### Usage with JavaScript (JS)
+#### Usage with JavaScript (JS)
 ###### js
 ```javascript
 import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
@@ -115,11 +114,10 @@ console.log('Vote Result:', voteResult);
 ```
 These examples demonstrate separate usage for JavaScript and TypeScript, along with how you can integrate the voting functions with an API or retrieve data from a database. Adjust the API endpoint or database retrieval method according to your actual implementation.
 
-### Using Voting function with React
-#### With API
+### Using Voting function with React With API
 Here's how you can use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) separately, along with examples that fetch data from an API:
 
-### React JSX Example with API
+#### React JSX Example with API
 ###### jsx
 ```jsx
 import React, { useEffect, useState } from 'react';
@@ -172,7 +170,7 @@ export default VotingComponent;
 
 ```
 
-### React TSX Example with API
+#### React TSX Example with API
 ###### tsx
 ```tsx
 import React, { useEffect, useState } from 'react';
@@ -218,14 +216,12 @@ const VotingComponent: React.FC = () => {
 export default VotingComponent;
 
 ```
-
 These examples demonstrate how to use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) and fetch data from an API. Adjust the API endpoint according to your actual implementation.
 
 
 ### Comment Function
-### Using with JavaScript or TypeScript
-#### With API
-### Usage with TypeScript (TS)
+### Using with JavaScript or TypeScript With API
+#### Usage with TypeScript (TS)
 ###### ts
 ```typescript
 import { comment, CommentStats } from 'react-votecom';
@@ -254,7 +250,7 @@ fetchAndAddComment();
 
 ```
 
-### Usage with JavaScript (JS)
+#### Usage with JavaScript (JS)
 ###### ts
 ```JavaScript
 const reactVotecom = require('react-votecom');
@@ -276,12 +272,13 @@ const fetchAndAddComment = async () => {
 fetchAndAddComment();
 
 ```
-### Using Comment function with React
-#### With API
+These examples demonstrate separate usage for JavaScript and TypeScript, along with how you can integrate the comment functions with an API or retrieve data from a database. Adjust the API endpoint or database retrieval method according to your actual implementation.
+
+### Using Comment function with React With API
 Here's how you can use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) separately, along with examples that fetch data from an API:
 
 
-### React JSX Example with API
+#### React JSX Example with API
 ###### jsx
 ```jsx
 import React, { useEffect, useState } from 'react';
@@ -329,7 +326,7 @@ export default PostComponent;
 
 ```
 
-### React TSX Example with API
+#### React TSX Example with API
 ###### tsx
 ```tsx
 import React, { useEffect, useState } from 'react';
@@ -382,9 +379,48 @@ const PostComponent: React.FC = () => {
 export default PostComponent;
 
 ```
+These examples demonstrate how to use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) and fetch data from an API. Adjust the API endpoint according to your actual implementation.
+
 
 ## License
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 
+Sure, here's the updated section:
+
+
 ## Contributing
-If you're interested in contributing to the react-votecom project, feel free to fork the repository and submit pull requests with your enhancements or bug fixes. We welcome contributions from the community!
+We welcome contributions to the react-votecom project! If you're interested in contributing, here's how you can get started:
+
+1. **Fork the Repository**: Start by forking the react-votecom repository to your own GitHub account.
+
+2. **Clone the Repository**: Clone the repository to your local machine using the following command:
+
+   ```bash
+   git clone https://github.com/your-username/react-votecom.git
+   ```
+
+3. **Create a New Branch**: Create a new branch for your contributions using a descriptive name:
+
+   ```bash
+   git checkout -b feature/new-feature
+   ```
+
+4. **Make Changes**: Make your desired changes to the codebase. Ensure that your changes adhere to the coding standards and guidelines of the project.
+
+5. **Test Your Changes**: Test your changes thoroughly to ensure that they work as expected and do not introduce any regressions.
+
+6. **Commit Your Changes**: Once you're satisfied with your changes, commit them to your branch with descriptive commit messages:
+
+   ```bash
+   git commit -m "Add new feature: Description of the feature"
+   ```
+
+7. **Push Changes**: Push your changes to your forked repository:
+
+   ```bash
+   git push origin feature/new-feature
+   ```
+
+8. **Submit a Pull Request**: Finally, submit a pull request from your branch to the main repository's `main` branch. Be sure to provide a detailed description of your changes and any related issues or pull requests.
+
+We appreciate your contributions to making react-votecom even better!
