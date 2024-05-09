@@ -1,6 +1,4 @@
-
 import { useState } from 'react';
-
 
 export interface VotingStats {
     upvotes: number;
@@ -58,10 +56,6 @@ export function combinedVotingFunction(votingStats: VotingStats, voteType: 'upvo
 
     return { count: totalCount, upvotePercentage, downvotePercentage, totalVote2, upvotes, downvotes };
 }
-
-
-
-
 
 export interface Comment {
     id: number;
