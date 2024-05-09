@@ -13,7 +13,8 @@ React-votecom is a package that provides easy-to-use components for adding votin
 
 ## Demo
 <a hraf="https://react-votecom-demo1.surge.sh/">Demo1</a>
-
+<a href="https://asta-185de.web.app/" target="_blank">Asta Event Management Website</a>
+[OpenAI's Website](https://openai.com){:target="_blank" rel="noopener noreferrer"}
 ## Package Overview
 The react-votecom package includes several functions and interfaces to manage voting statistics, perform voting operations, and handle comments.
 
