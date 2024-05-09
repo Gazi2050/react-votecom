@@ -224,7 +224,7 @@ export default VotingComponent;
 These examples demonstrate how to use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) and fetch data from an API. Adjust the API endpoint according to your actual implementation.
 
 
-### Comment Function
+### Comment Function(Under Development)
 ### Using with JavaScript or TypeScript With API
 #### Usage with TypeScript (TS)
 ###### ts
