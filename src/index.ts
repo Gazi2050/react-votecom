@@ -38,11 +38,12 @@ export function combinedVotingFunction(votingStats: VotingStats, voteType: 'upvo
         throw new Error('Invalid vote type. Must be "upvote" or "downvote".');
     }
 
-    const upvotePercentage = (upvotes / totalCount) * 100;
-    const downvotePercentage = (downvotes / totalCount) * 100;
+    const upvotePercentage = totalCount === 0 ? 0 : parseFloat((upvotes / totalCount * 100).toFixed(2));
+    const downvotePercentage = totalCount === 0 ? 0 : parseFloat((downvotes / totalCount * 100).toFixed(2));
 
     return { count: totalCount, upvotePercentage, downvotePercentage };
 }
+
 
 export interface Comment {
     id: number;
