@@ -121,10 +121,10 @@ Here's how you can use the react-votecom package with React in both JavaScript (
 ###### jsx
 ```jsx
 import React, { useEffect, useState } from 'react';
-import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
+import { separateVotingFunction, combinedVotingFunction} from 'react-votecom';
 
 const VotingComponent = () => {
-  const [votingStats, setVotingStats] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
+  const [votingStats, setVotingStats] = useState({ upvotes: 0, downvotes: 0 });
 
   useEffect(() => {
     fetch('https://api.example.com/voting/stats')
