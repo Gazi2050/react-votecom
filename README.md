@@ -228,12 +228,52 @@ These examples demonstrate how to use the react-votecom package with React in bo
 ### Usage with TypeScript (TS)
 ###### ts
 ```typescript
+import { comment, CommentStats } from 'react-votecom';
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
+const fetchAndAddComment = async () => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+    const postData: Post = await response.json();
+
+    const commentStats: CommentStats = { totalComments: 0 };
+    const [comments, deleteComment] = comment(commentStats, postData.body);
+
+    console.log('Comments:', comments);
+  } catch (error) {
+    console.error('Error fetching post data:', error);
+  }
+};
+
+fetchAndAddComment();
 
 ```
 
 ### Usage with JavaScript (JS)
 ###### ts
 ```JavaScript
+const reactVotecom = require('react-votecom');
+
+const fetchAndAddComment = async () => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+    const postData = await response.json();
+
+    const commentStats = { totalComments: 0 };
+    const [comments, deleteComment] = reactVotecom.comment(commentStats, postData.body);
+
+    console.log('Comments:', comments);
+  } catch (error) {
+    console.error('Error fetching post data:', error);
+  }
+};
+
+fetchAndAddComment();
 
 ```
 ### Using Comment function with React
@@ -244,12 +284,102 @@ Here's how you can use the react-votecom package with React in both JavaScript (
 ### React JSX Example with API
 ###### jsx
 ```jsx
+import React, { useEffect, useState } from 'react';
+import reactVotecom from 'react-votecom';
+
+const PostComponent = () => {
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+        const postData = await response.json();
+        setPost(postData);
+
+        const commentStats = { totalComments: 0 };
+        const [newComments] = reactVotecom.comment(commentStats, postData.body);
+        setComments(newComments);
+      } catch (error) {
+        console.error('Error fetching post data:', error);
+      }
+    };
+
+    fetchPostData();
+  }, []);
+
+  return (
+    <div>
+      {post && (
+        <div>
+          <h2>{post.title}</h2>
+          <p>{post.body}</p>
+        </div>
+      )}
+      <h3>Comments</h3>
+      {comments.map(comment => (
+        <p key={comment.id}>{comment.text}</p>
+      ))}
+    </div>
+  );
+};
+
+export default PostComponent;
 
 ```
 
 ### React TSX Example with API
 ###### tsx
 ```tsx
+import React, { useEffect, useState } from 'react';
+import { comment, CommentStats } from 'react-votecom';
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
+const PostComponent: React.FC = () => {
+  const [post, setPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+        const postData: Post = await response.json();
+        setPost(postData);
+
+        const commentStats: CommentStats = { totalComments: 0 };
+        const [newComments] = comment(commentStats, postData.body);
+        setComments(newComments);
+      } catch (error) {
+        console.error('Error fetching post data:', error);
+      }
+    };
+
+    fetchPostData();
+  }, []);
+
+  return (
+    <div>
+      {post && (
+        <div>
+          <h2>{post.title}</h2>
+          <p>{post.body}</p>
+        </div>
+      )}
+      <h3>Comments</h3>
+      {comments.map(comment => (
+        <p key={comment.id}>{comment.text}</p>
+      ))}
+    </div>
+  );
+};
+
+export default PostComponent;
 
 ```
 
