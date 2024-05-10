@@ -1,5 +1,5 @@
 # react-votecom
-A React component package for implementing voting and commenting functionality in web applications.
+A React component package for implementing voting  functionality in web applications.
 
 ## Installation
 You can install react-votecom using npm:
@@ -9,112 +9,211 @@ npm install react-votecom
 ```
 
 ## Introduction
-React-votecom is a package that provides easy-to-use components for adding voting and commenting features to your Ts,Js,React applications. It simplifies the process of managing voting statistics and integrates seamlessly with your projects.
+React-votecom is a package that provides easy-to-use components for adding voting features to your Ts,Js,React applications. It simplifies the process of managing voting statistics and integrates seamlessly with your projects.
 
 ## Demo
 [Demo1](https://react-votecom-demo1.surge.sh)
 
 ## Package Overview
-The react-votecom package includes several functions and interfaces to manage voting statistics, perform voting operations, and handle comments.
+The react-votecom package includes several functions and interfaces to manage voting statistics, perform voting operations.
 
 ### Functions
 - `separateVotingFunction`: Increments either the upvotes or downvotes count in the voting stats object.
 - `combinedVotingFunction`: Updates the combined vote count and calculates the percentages of upvotes and downvotes.
-- `comment`: Function for adding comments and managing comment stats.
 
 ### Interfaces
 - `VotingStats`: Represents the voting statistics, including the number of upvotes and downvotes.
 - `VotingResult`: Represents the result of a voting operation, including the combined vote count and the percentages of upvotes and downvotes.
-- `Comment`: Represents a single comment, including its ID and text.
-- `CommentStats`: Represents the total number of comments.
 
 ## Usage
 
 ### Voting Function
 ### Using with JavaScript or TypeScript With API
+#### Usage with JavaScript (JS)
+###### js
+```javascript
+function App() {
+  const [votingStats, setVotingStats] = React.useState({ upvotes: 0, downvotes: 0 });
+  const [votingStats2, setVotingStats2] = React.useState({ upvotes: 0, downvotes: 0 });
+
+  React.useEffect(() => {
+    fetchVotingStats(); // Fetch initial voting stats from the API
+  }, []);
+
+  const fetchVotingStats = async () => {
+    try {
+      const response = await fetch('/api/voting/stats');
+      const data = await response.json();
+      setVotingStats(data.stats1);
+      setVotingStats2(data.stats2);
+    } catch (error) {
+      console.error('Error fetching voting stats:', error);
+    }
+  };
+
+  const updateVotingStats = async (stats, type) => {
+    try {
+      const response = await fetch(`/api/voting/${type}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(stats)
+      });
+      const data = await response.json();
+      if (type === 'combined') {
+        setVotingStats(data.stats);
+      } else if (type === 'separate') {
+        setVotingStats2(data.stats);
+      }
+    } catch (error) {
+      console.error('Error updating voting stats:', error);
+    }
+  };
+
+  const handleCombinedVoting = async (voteType) => {
+    const updatedStats = combinedVotingFunction(votingStats, voteType);
+    await updateVotingStats(updatedStats, 'combined');
+  };
+
+  const handleSeparateVoting = async (voteType) => {
+    const updatedStats = separateVotingFunction(votingStats2, voteType);
+    await updateVotingStats(updatedStats, 'separate');
+  };
+
+  return (
+    React.createElement('div', { className: "flex justify-center items-center mt-1" },
+      React.createElement('div', { className: "card w-auto bg-zinc-900 text-neutral-content" },
+        React.createElement('div', { className: "card-body items-center text-center" },
+          React.createElement('h1', { className: "text-center text-3xl font-bold" }, "Hello react-votecom"),
+          React.createElement('h2', { className: "card-title" }, "Post"),
+          React.createElement('p', null, "We are using post for test npm package"),
+          React.createElement('p', { className: "font-bold text-purple-400" }, "CombinedVoting"),
+          React.createElement('div', { className: "card-actions justify-center" },
+            React.createElement('button', { onClick: () => handleCombinedVoting('upvote'), className: "btn bg-black text-2xl text-green-600" },UpVote),
+            React.createElement('button', { onClick: () => handleCombinedVoting('downvote'), className: "btn bg-black text-2xl text-red-600" }, DownVote)
+          ),
+          React.createElement('div', { className: "font-bold text-lg" },
+            React.createElement('p', { className: "text-purple-400" }, votingStats.count ? votingStats.count : 0),
+            React.createElement('div', { className: "space-x-3" },
+              React.createElement('span', { className: "text-green-600" }, votingStats.upvotePercentage ? votingStats.upvotePercentage : 0),
+              React.createElement('span', { className: "text-red-600" }, votingStats.downvotePercentage ? votingStats.downvotePercentage : 0)
+            )
+          ),
+          React.createElement('p', { className: "font-bold text-purple-400" }, "SeparateVoting"),
+          React.createElement('div', { className: "card-actions justify-end" },
+            React.createElement('button', { onClick: () => handleSeparateVoting('upvote'), className: "btn bg-black text-2xl text-green-600" }, UpVote),
+            React.createElement('button', { onClick: () => handleSeparateVoting('downvote'), className: "btn bg-black text-2xl text-red-600" }, DownVote)
+          ),
+          React.createElement('div', { className: "space-x-3 text-lg font-bold" },
+            React.createElement('span', { className: "text-green-600" }, votingStats2.upvotes ? votingStats2.upvotes : 0),
+            React.createElement('span', { className: "text-red-600" }, votingStats2.downvotes ? votingStats2.downvotes : 0)
+          )
+        )
+      )
+    )
+  );
+}
+
+export default App;
+```
 #### Usage with TypeScript (TS)
 ###### ts
 ```typescript
-import { useEffect, useState } from 'react';
-import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
-
-// Define the type for the response from the API
-interface VotingApiResponse {
+import React, { useEffect, useState } from 'react';
+interface VotingStats {
   upvotes: number;
   downvotes: number;
 }
 
-const VotingComponent = () => {
+function App(): JSX.Element {
   const [votingStats, setVotingStats] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
+  const [votingStats2, setVotingStats2] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
 
   useEffect(() => {
-    fetch('https://example.com/api/voting/stats')
-      .then(response => response.json() as Promise<VotingApiResponse>) // Cast response to VotingApiResponse
-      .then(data => setVotingStats(data))
-      .catch(error => console.error('Error fetching voting stats:', error));
+    fetchVotingStats(); // Fetch initial voting stats from the API
   }, []);
 
-  const handleUpvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'upvote');
-    setVotingStats(updatedStats);
+  const fetchVotingStats = async (): Promise<void> => {
+    try {
+      const response = await fetch('/api/voting/stats');
+      const data = await response.json();
+      setVotingStats(data.stats1);
+      setVotingStats2(data.stats2);
+    } catch (error) {
+      console.error('Error fetching voting stats:', error);
+    }
   };
 
-  const handleDownvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'downvote');
-    setVotingStats(updatedStats);
+  const updateVotingStats = async (stats: VotingStats, type: string): Promise<void> => {
+    try {
+      const response = await fetch(`/api/voting/${type}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(stats)
+      });
+      const data = await response.json();
+      if (type === 'combined') {
+        setVotingStats(data.stats);
+      } else if (type === 'separate') {
+        setVotingStats2(data.stats);
+      }
+    } catch (error) {
+      console.error('Error updating voting stats:', error);
+    }
   };
 
-  const handleCombinedVoting = () => {
-    const updatedStats = combinedVotingFunction(votingStats, 'upvote');
-    setVotingStats(updatedStats);
+  const handleCombinedVoting = async (voteType: string): Promise<void> => {
+    const updatedStats = combinedVotingFunction(votingStats, voteType);
+    await updateVotingStats(updatedStats, 'combined');
   };
 
-  return {
-    votingStats,
-    handleUpvote,
-    handleDownvote,
-    handleCombinedVoting
+  const handleSeparateVoting = async (voteType: string): Promise<void> => {
+    const updatedStats = separateVotingFunction(votingStats2, voteType);
+    await updateVotingStats(updatedStats, 'separate');
   };
-};
 
-export default VotingComponent;
+  return (
+    <div className="flex justify-center items-center mt-1">
+      <div className="card w-auto bg-zinc-900 text-neutral-content">
+        <div className="card-body items-center text-center">
+          <h1 className="text-center text-3xl font-bold">Hello react-votecom</h1>
+          <h2 className="card-title">Post</h2>
+          <p>We are using post for test npm package</p>
+          <p className="font-bold text-purple-400">CombinedVoting</p>
+          <div className="card-actions justify-center">
+            <button onClick={() => handleCombinedVoting('upvote')} className="btn bg-black text-2xl text-green-600">UpVote</button>
+            <button onClick={() => handleCombinedVoting('downvote')} className="btn bg-black text-2xl text-red-600">DownVote</button>
+          </div>
+          <div className="font-bold text-lg">
+            <p className="text-purple-400">{votingStats.count ? votingStats.count : 0}</p>
+            <div className="space-x-3 ">
+              <span className="text-green-600">{votingStats.upvotePercentage ? votingStats.upvotePercentage : 0}%</span>
+              <span className="text-red-600">{votingStats.downvotePercentage ? votingStats.downvotePercentage : 0}%</span>
+            </div>
+          </div>
+
+          <p className="font-bold text-purple-400">SeparateVoting</p>
+          <div className="card-actions justify-end">
+            <button onClick={() => handleSeparateVoting('upvote')} className="btn bg-black text-2xl text-green-600">UpVote</button>
+            <button onClick={() => handleSeparateVoting('downvote')} className="btn bg-black text-2xl text-red-600">DownVote</button>
+          </div>
+          <div className="space-x-3 text-lg  font-bold">
+            <span className="text-green-600">{votingStats2.upvotes ? votingStats2.upvotes : 0}</span>
+            <span className="text-red-600">{votingStats2.downvotes ? votingStats2.downvotes : 0}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
 
 ```
 
-#### Usage with JavaScript (JS)
-###### js
-```javascript
-import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
-
-// Example usage with API
-fetch('https://api.example.com/voting/stats')
-  .then(response => response.json())
-  .then(data => {
-    // Assuming the API response is in the format { upvotes: number, downvotes: number }
-    const initialVotingStats: VotingStats = data;
-    
-    // Increment upvote count using separateVotingFunction
-    const updatedStats = separateVotingFunction(initialVotingStats, 'upvote');
-    console.log('Updated Voting Stats:', updatedStats);
-
-    // Calculate voting result using combinedVotingFunction
-    const voteResult = combinedVotingFunction(initialVotingStats, 'upvote');
-    console.log('Vote Result:', voteResult);
-  })
-  .catch(error => console.error('Error fetching voting stats:', error));
-
-// Example usage with Database Link
-// Assuming you have a database link and method to retrieve voting stats
-const initialVotingStats: VotingStats = getVotingStatsFromDatabase();
-
-// Increment upvote count using separateVotingFunction
-const updatedStats = separateVotingFunction(initialVotingStats, 'upvote');
-console.log('Updated Voting Stats:', updatedStats);
-
-// Calculate voting result using combinedVotingFunction
-const voteResult = combinedVotingFunction(initialVotingStats, 'upvote');
-console.log('Vote Result:', voteResult);
-```
 These examples demonstrate separate usage for JavaScript and TypeScript, along with how you can integrate the voting functions with an API or retrieve data from a database. Adjust the API endpoint or database retrieval method according to your actual implementation.
 
 ### Using Voting function with React With API
@@ -123,269 +222,195 @@ Here's how you can use the react-votecom package with React in both JavaScript (
 #### React JSX Example with API
 ###### jsx
 ```jsx
-import React, { useEffect, useState } from 'react';
-import { separateVotingFunction, combinedVotingFunction} from 'react-votecom';
+import { useEffect, useState } from 'react';
+import { combinedVotingFunction, separateVotingFunction } from "react-votecom";
 
-const VotingComponent = () => {
+function App() {
   const [votingStats, setVotingStats] = useState({ upvotes: 0, downvotes: 0 });
+  const [votingStats2, setVotingStats2] = useState({ upvotes: 0, downvotes: 0 });
 
   useEffect(() => {
-    fetch('https://api.example.com/voting/stats')
-      .then(response => response.json())
-      .then(data => setVotingStats(data))
-      .catch(error => console.error('Error fetching voting stats:', error));
+    fetchVotingStats(); // Fetch initial voting stats from the API
   }, []);
 
-  const handleUpvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'upvote');
-    setVotingStats(updatedStats);
+  const fetchVotingStats = async () => {
+    try {
+      const response = await fetch('/api/voting/stats');
+      const data = await response.json();
+      setVotingStats(data.stats1);
+      setVotingStats2(data.stats2);
+    } catch (error) {
+      console.error('Error fetching voting stats:', error);
+    }
   };
 
-  const handleDownvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'downvote');
-    setVotingStats(updatedStats);
+  const updateVotingStats = async (stats, type) => {
+    try {
+      const response = await fetch(`/api/voting/${type}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(stats)
+      });
+      const data = await response.json();
+      if (type === 'combined') {
+        setVotingStats(data.stats);
+      } else if (type === 'separate') {
+        setVotingStats2(data.stats);
+      }
+    } catch (error) {
+      console.error('Error updating voting stats:', error);
+    }
   };
 
-  const handleCombinedVoting = (voteType) => {
+  const handleCombinedVoting = async (voteType) => {
     const updatedStats = combinedVotingFunction(votingStats, voteType);
-    setVotingStats(updatedStats);
+    await updateVotingStats(updatedStats, 'combined');
+  };
+
+  const handleSeparateVoting = async (voteType) => {
+    const updatedStats = separateVotingFunction(votingStats2, voteType);
+    await updateVotingStats(updatedStats, 'separate');
   };
 
   return (
-    <div>
-      <h2>Voting Stats</h2>
-      <p>Upvotes: {votingStats.upvotes}</p>
-      <p>Downvotes: {votingStats.downvotes}</p>
-      <button onClick={handleUpvote}>Upvote</button>
-      <button onClick={handleDownvote}>Downvote</button>
-      <button onClick={() => handleCombinedVoting('upvote')}>Upvote</button>
-      <button onClick={() => handleCombinedVoting('downvote')}>Downvote</button>
-    </div>
+    <>
+      <div className="flex justify-center items-center mt-1">
+        <div className="card w-auto bg-zinc-900 text-neutral-content">
+          <div className="card-body items-center text-center">
+            <h1 className="text-center text-3xl font-bold">Hello react-votecom</h1>
+            <h2 className="card-title">Post</h2>
+            <p>We are using post for test npm package</p>
+            <p className="font-bold text-purple-400">CombinedVoting</p>
+            <div className="card-actions justify-center">
+              <button onClick={() => handleCombinedVoting('upvote')} className="btn bg-black text-2xl text-green-600">UpVote</button>
+              <button onClick={() => handleCombinedVoting('downvote')} className="btn bg-black text-2xl text-red-600">DownVote</button>
+            </div>
+            <div className="font-bold text-lg">
+              <p className="text-purple-400">{votingStats.count ? votingStats.count : 0}</p>
+              <div className="space-x-3 ">
+                <span className="text-green-600">{votingStats.upvotePercentage ? votingStats.upvotePercentage : 0}%</span>
+                <span className="text-red-600">{votingStats.downvotePercentage ? votingStats.downvotePercentage : 0}%</span>
+              </div>
+            </div>
+
+            <p className="font-bold text-purple-400">SeparateVoting</p>
+            <div className="card-actions justify-end">
+              <button onClick={() => handleSeparateVoting('upvote')} className="btn bg-black text-2xl text-green-600">UpVote</button>
+              <button onClick={() => handleSeparateVoting('downvote')} className="btn bg-black text-2xl text-red-600">DownVote</button>
+            </div>
+            <div className="space-x-3 text-lg  font-bold">
+              <span className="text-green-600">{votingStats2.upvotes ? votingStats2.upvotes : 0}</span>
+              <span className="text-red-600">{votingStats2.downvotes ? votingStats2.downvotes : 0}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
-};
+}
 
-export default VotingComponent;
-
+export default App;
 ```
 
 #### React TSX Example with API
 ###### tsx
 ```tsx
 import React, { useEffect, useState } from 'react';
-import { separateVotingFunction, combinedVotingFunction, VotingStats } from 'react-votecom';
-
-// Define the type for the response from the API
-interface VotingApiResponse {
+interface VotingStats {
   upvotes: number;
   downvotes: number;
 }
 
-const VotingComponent = () => {
+function App(): JSX.Element {
   const [votingStats, setVotingStats] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
+  const [votingStats2, setVotingStats2] = useState<VotingStats>({ upvotes: 0, downvotes: 0 });
 
   useEffect(() => {
-    fetch('https://example.com/api/voting/stats')
-      .then(response => response.json() as Promise<VotingApiResponse>) // Cast response to VotingApiResponse
-      .then(data => setVotingStats(data))
-      .catch(error => console.error('Error fetching voting stats:', error));
+    fetchVotingStats(); // Fetch initial voting stats from the API
   }, []);
 
-  const handleUpvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'upvote');
-    setVotingStats(updatedStats);
+  const fetchVotingStats = async (): Promise<void> => {
+    try {
+      const response = await fetch('/api/voting/stats');
+      const data = await response.json();
+      setVotingStats(data.stats1);
+      setVotingStats2(data.stats2);
+    } catch (error) {
+      console.error('Error fetching voting stats:', error);
+    }
   };
 
-  const handleDownvote = () => {
-    const updatedStats = separateVotingFunction(votingStats, 'downvote');
-    setVotingStats(updatedStats);
+  const updateVotingStats = async (stats: VotingStats, type: string): Promise<void> => {
+    try {
+      const response = await fetch(`/api/voting/${type}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(stats)
+      });
+      const data = await response.json();
+      if (type === 'combined') {
+        setVotingStats(data.stats);
+      } else if (type === 'separate') {
+        setVotingStats2(data.stats);
+      }
+    } catch (error) {
+      console.error('Error updating voting stats:', error);
+    }
   };
 
-  const handleCombinedVoting = () => {
-    const updatedStats = combinedVotingFunction(votingStats.upvotes, 'upvote');
-    setVotingStats({ ...votingStats, upvotes: updatedStats });
+  const handleCombinedVoting = async (voteType: string): Promise<void> => {
+    const updatedStats = combinedVotingFunction(votingStats, voteType);
+    await updateVotingStats(updatedStats, 'combined');
+  };
+
+  const handleSeparateVoting = async (voteType: string): Promise<void> => {
+    const updatedStats = separateVotingFunction(votingStats2, voteType);
+    await updateVotingStats(updatedStats, 'separate');
   };
 
   return (
-    <div>
-      <h2>Voting Stats</h2>
-      <p>Upvotes: {votingStats.upvotes}</p>
-      <p>Downvotes: {votingStats.downvotes}</p>
-      <button onClick={handleUpvote}>Upvote</button>
-      <button onClick={handleDownvote}>Downvote</button>
-      <button onClick={handleCombinedVoting}>Combined Voting</button>
+    <div className="flex justify-center items-center mt-1">
+      <div className="card w-auto bg-zinc-900 text-neutral-content">
+        <div className="card-body items-center text-center">
+          <h1 className="text-center text-3xl font-bold">Hello react-votecom</h1>
+          <h2 className="card-title">Post</h2>
+          <p>We are using post for test npm package</p>
+          <p className="font-bold text-purple-400">CombinedVoting</p>
+          <div className="card-actions justify-center">
+            <button onClick={() => handleCombinedVoting('upvote')} className="btn bg-black text-2xl text-green-600">UpVote</button>
+            <button onClick={() => handleCombinedVoting('downvote')} className="btn bg-black text-2xl text-red-600">DownVote</button>
+          </div>
+          <div className="font-bold text-lg">
+            <p className="text-purple-400">{votingStats.count ? votingStats.count : 0}</p>
+            <div className="space-x-3 ">
+              <span className="text-green-600">{votingStats.upvotePercentage ? votingStats.upvotePercentage : 0}%</span>
+              <span className="text-red-600">{votingStats.downvotePercentage ? votingStats.downvotePercentage : 0}%</span>
+            </div>
+          </div>
+
+          <p className="font-bold text-purple-400">SeparateVoting</p>
+          <div className="card-actions justify-end">
+            <button onClick={() => handleSeparateVoting('upvote')} className="btn bg-black text-2xl text-green-600">UpVote</button>
+            <button onClick={() => handleSeparateVoting('downvote')} className="btn bg-black text-2xl text-red-600">DownVote</button>
+          </div>
+          <div className="space-x-3 text-lg  font-bold">
+            <span className="text-green-600">{votingStats2.upvotes ? votingStats2.upvotes : 0}</span>
+            <span className="text-red-600">{votingStats2.downvotes ? votingStats2.downvotes : 0}</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default VotingComponent;
-
+export default App;
 
 ```
 These examples demonstrate how to use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) and fetch data from an API. Adjust the API endpoint according to your actual implementation.
-
-
-### Comment Function(Under Development)
-### Using with JavaScript or TypeScript With API
-#### Usage with TypeScript (TS)
-###### ts
-```typescript
-import { comment, CommentStats } from 'react-votecom';
-
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-}
-
-const fetchAndAddComment = async () => {
-  try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
-    const postData: Post = await response.json();
-
-    const commentStats: CommentStats = { totalComments: 0 };
-    const [comments, deleteComment] = comment(commentStats, postData.body);
-
-    console.log('Comments:', comments);
-  } catch (error) {
-    console.error('Error fetching post data:', error);
-  }
-};
-
-fetchAndAddComment();
-
-```
-
-#### Usage with JavaScript (JS)
-###### ts
-```JavaScript
-const reactVotecom = require('react-votecom');
-
-const fetchAndAddComment = async () => {
-  try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
-    const postData = await response.json();
-
-    const commentStats = { totalComments: 0 };
-    const [comments, deleteComment] = reactVotecom.comment(commentStats, postData.body);
-
-    console.log('Comments:', comments);
-  } catch (error) {
-    console.error('Error fetching post data:', error);
-  }
-};
-
-fetchAndAddComment();
-
-```
-These examples demonstrate separate usage for JavaScript and TypeScript, along with how you can integrate the comment functions with an API or retrieve data from a database. Adjust the API endpoint or database retrieval method according to your actual implementation.
-
-### Using Comment function with React With API
-Here's how you can use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) separately, along with examples that fetch data from an API:
-
-
-#### React JSX Example with API
-###### jsx
-```jsx
-import React, { useEffect, useState } from 'react';
-import reactVotecom from 'react-votecom';
-
-const PostComponent = () => {
-  const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    const fetchPostData = async () => {
-      try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
-        const postData = await response.json();
-        setPost(postData);
-
-        const commentStats = { totalComments: 0 };
-        const [newComments] = reactVotecom.comment(commentStats, postData.body);
-        setComments(newComments);
-      } catch (error) {
-        console.error('Error fetching post data:', error);
-      }
-    };
-
-    fetchPostData();
-  }, []);
-
-  return (
-    <div>
-      {post && (
-        <div>
-          <h2>{post.title}</h2>
-          <p>{post.body}</p>
-        </div>
-      )}
-      <h3>Comments</h3>
-      {comments.map(comment => (
-        <p key={comment.id}>{comment.text}</p>
-      ))}
-    </div>
-  );
-};
-
-export default PostComponent;
-
-```
-
-#### React TSX Example with API
-###### tsx
-```tsx
-import React, { useEffect, useState } from 'react';
-import { comment, CommentStats } from 'react-votecom';
-
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-}
-
-const PostComponent: React.FC = () => {
-  const [post, setPost] = useState<Post | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
-
-  useEffect(() => {
-    const fetchPostData = async () => {
-      try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
-        const postData: Post = await response.json();
-        setPost(postData);
-
-        const commentStats: CommentStats = { totalComments: 0 };
-        const [newComments] = comment(commentStats, postData.body);
-        setComments(newComments);
-      } catch (error) {
-        console.error('Error fetching post data:', error);
-      }
-    };
-
-    fetchPostData();
-  }, []);
-
-  return (
-    <div>
-      {post && (
-        <div>
-          <h2>{post.title}</h2>
-          <p>{post.body}</p>
-        </div>
-      )}
-      <h3>Comments</h3>
-      {comments.map(comment => (
-        <p key={comment.id}>{comment.text}</p>
-      ))}
-    </div>
-  );
-};
-
-export default PostComponent;
-
-```
-These examples demonstrate how to use the react-votecom package with React in both JavaScript (JSX) and TypeScript (TSX) and fetch data from an API. Adjust the API endpoint according to your actual implementation.
-
 
 ## License
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.

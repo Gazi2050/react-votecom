@@ -57,31 +57,3 @@ export function combinedVotingFunction(votingStats: VotingStats, voteType: 'upvo
     return { count: totalCount, upvotePercentage, downvotePercentage, totalVote2, upvotes, downvotes };
 }
 
-export interface Comment {
-    id: number;
-    text: string;
-}
-
-export interface CommentStats {
-    totalComments: number;
-}
-
-export function comment(commentStats: CommentStats, newComment: string): [Comment[], (id: number) => void] {
-    const [comments, setComments] = useState<Comment[]>([]);
-
-    const addComment = (text: string) => {
-        const newComment: Comment = {
-            id: comments.length + 1,
-            text
-        };
-        setComments([...comments, newComment]);
-    };
-
-    const deleteComment = (id: number) => {
-        setComments(comments.filter(comment => comment.id !== id));
-    };
-
-    addComment(newComment);
-
-    return [comments, deleteComment];
-}
