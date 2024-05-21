@@ -415,9 +415,6 @@ These examples demonstrate how to use the react-votecom package with React in bo
 ## License
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 
-Sure, here's the updated section:
-
-
 ## Contributing
 We welcome contributions to the react-votecom project! If you're interested in contributing, here's how you can get started:
 
