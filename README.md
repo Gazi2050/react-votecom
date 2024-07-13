@@ -136,24 +136,35 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 We welcome contributions to the `react-votecom` project! Here's how you can get started:
 
 1. **Fork the Repository**: Fork the `react-votecom` repository to your own GitHub account.
+
 2. **Clone the Repository**: Clone the repository to your local machine using:
+
    ```bash
    git clone https://github.com/your-username/react-votecom.git
    ```
+
 3. **Create a New Branch**: Create a new branch for your contributions using a descriptive name:
+
    ```bash
    git checkout -b feature/new-feature
    ```
+
 4. **Make Changes**: Make your desired changes to the codebase. Ensure that your changes adhere to the coding standards and guidelines of the project.
+
 5. **Test Your Changes**: Test your changes thoroughly to ensure they work as expected and do not introduce any regressions.
+
 6. **Commit Your Changes**: Once you're satisfied with your changes, commit them to your branch with descriptive commit messages:
+
    ```bash
    git commit -m "Add new feature: Description of the feature"
    ```
+
 7. **Push Changes**: Push your changes to your forked repository:
+
    ```bash
    git push origin feature/new-feature
    ```
+
 8. **Submit a Pull Request**: Submit a pull request from your branch to the main repository's `main` branch. Provide a detailed description of your changes and any related issues or pull requests.
 
-We appreciate your contributions to making `react-votecom` even better!
+ We appreciate your contributions to making `react-votecom` even better!
