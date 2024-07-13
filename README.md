@@ -1,5 +1,5 @@
 # react-votecom
-A React component package for implementing voting functionality in web applications.
+A React functional package for implementing voting functionality in web applications.
 
 ## Installation
 Install `react-votecom` using npm:
