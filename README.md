@@ -166,5 +166,5 @@ We welcome contributions to the `react-votecom` project! Here's how you can get 
    ```
 
 8. **Submit a Pull Request**: Submit a pull request from your branch to the main repository's `main` branch. Provide a detailed description of your changes and any related issues or pull requests.
-
- We appreciate your contributions to making `react-votecom` even better!
+  
+  ### We appreciate your contributions to making `react-votecom` even better!
