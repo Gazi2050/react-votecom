@@ -1,6 +1,6 @@
 {
   "name": "react-votecom",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A React component library for implementing voting functionality in web applications.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -17,8 +17,6 @@
     "voting",
     "feedback",
     "react-votecom",
-    "component",
-    "library",
     "frontend"
   ],
   "author": "gazi2050",
